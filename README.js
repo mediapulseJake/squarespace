@@ -1,7 +1,7 @@
 # squarespace
 Media Pulse Chat GPT for Squarespace
  // Replace API_KEY with your actual API key
-const API_KEY = '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';
+const API_KEY = 'process.env.OPENAI_API_KEY4';
 const API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
 
 // Replace the text here with the prompt you want to generate completion for
