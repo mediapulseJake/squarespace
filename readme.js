@@ -1,4 +1,4 @@
-const openaiApiKey = "<process.env.OPENAI_API_KEY>";
+const openaiApiKey = "process.env.OPENAI_API_KEY";
 
 // Set the URL for the OpenAI API endpoint
 const openaiApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
