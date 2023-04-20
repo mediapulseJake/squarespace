@@ -1,32 +1,50 @@
-# squarespace
-Media Pulse Chat GPT for Squarespace
- // Replace API_KEY with your actual API key
-const API_KEY = 'process.env.OPENAI_API_KEY4';
-const API_URL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
+const openaiApiKey = "<process.env.OPENAI_API_KEY>";
 
-// Replace the text here with the prompt you want to generate completion for
-const prompt = “Give me 5 reasons to use an ethical marketing company”;
+// Set the URL for the OpenAI API endpoint
+const openaiApiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': `Bearer ${API_KEY}`
-};
+// Create the chat window element
+const chatWindow = document.createElement("iframe");
 
-const data = {
-  prompt: prompt,
-  max_tokens: 50,
-  temperature: 0.7,
-  n: 1,
-  stop: '\n'
-};
+// Set the attributes for the chat window
+chatWindow.setAttribute("src", "https://cdn.jsdelivr.net/gh/mediapulseJake/chatbot-html/index.html");
+chatWindow.setAttribute("id", "chat-window");
+chatWindow.setAttribute("frameborder", "0");
+chatWindow.setAttribute("scrolling", "no");
+chatWindow.setAttribute("allowfullscreen", "true");
+chatWindow.style.cssText = "position: absolute; bottom: 0; right: 0; width: 100%; height: 100%; z-index: 999999;";
 
-const response = await fetch(API_URL, {
-  method: 'POST',
-  headers: headers,
-  body: JSON.stringify(data)
+// Append the chat window to the chat container element
+const chatContainer = document.getElementById("chat-container");
+chatContainer.appendChild(chatWindow);
+
+// Send a message to the chat window
+function sendMessage(message) {
+  chatWindow.contentWindow.postMessage(message, "*");
+}
+
+// Receive a message from the chat window
+window.addEventListener("message", async (event) => {
+  if (event.data.type === "message") {
+    const message = event.data.message;
+    const prompt = `${message}\nAI:`;
+    const requestBody = JSON.stringify({
+      prompt: prompt,
+      max_tokens: 100,
+      temperature: 0.5,
+      n: 1,
+      stop: ["\n"]
+    });
+    const response = await fetch(openaiApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${openaiApiKey}`
+      },
+      body: requestBody
+    });
+    const data = await response.json();
+    const completion = data.choices[0].text.trim();
+    sendMessage(completion);
+  }
 });
-
-const result = await response.json();
-const completion = result.choices[0].text.trim();
-
-console.log(completion);
