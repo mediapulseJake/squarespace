@@ -3,6 +3,21 @@
 <head>
 	<meta charset="utf-8">
 	<title>Inline Chat Window</title>
+	<style>
+		#chat-container {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			width: 100%;
+			height: 100%;
+			max-width: 400px;
+			max-height: 600px;
+			background-color: white;
+			border: 1px solid black;
+			overflow: hidden;
+			z-index: 99999; /* set a higher z-index than other elements */
+		}
+	</style>
 </head>
 <body>
 	<h1>Inline Chat Window</h1>
@@ -10,3 +25,4 @@
 	<script src="https://cdn.jsdelivr.net/gh/mediapulseJake/squarespace/readme.js"></script>
 </body>
 </html>
+
